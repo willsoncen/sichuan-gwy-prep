@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>四川省考（省市综合管理）全科作战全景思维导图</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+    .title-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge {
+      background: #3b82f6;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    button:hover {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+    #mindmap {
+      width: 100%;
+      height: 100%;
+      padding-top: 56px;
+    }
+    .markmap {
+      width: 100%;
+      height: 100%;
+    }
+    /* 自定义 Markmap 节点样式 */
+    .markmap-node text {
+      font-weight: 500;
+    }
+    .footer-tip {
+      position: absolute;
+      bottom: 12px;
+      left: 20px;
+      font-size: 11px;
+      color: #64748b;
+      pointer-events: none;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.15.4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.15.4/dist/browser/index.js"></script>
+</head>
+<body>
+  <header>
+    <div class="title-box">
+      <span class="badge">四川省考 25天冲刺</span>
+      <h1>行测全科作战全景思维导图（高交互极速版）</h1>
+    </div>
+    <div class="btn-group">
+      <button onclick="zoomFit()">🎯 适应屏幕</button>
+      <button onclick="toggleExpandAll()">🔄 展开/收起全部</button>
+      <button onclick="toggleFullScreen()">⛶ 全屏沉浸</button>
+    </div>
+  </header>
+
+  <svg id="mindmap" class="markmap"></svg>
+  <div class="footer-tip">💡 提示：按住鼠标左键可拖动画布；滚轮可无级缩放；点击彩色圆圈可展开/收起对应分支</div>
+
+  <script>
+    const markdownContent = `# 四川省考（省市综合管理）行测全科作战全景思维导图
+
+## 01 资料分析（目标：14+题 / 限时：22~25min / 头号必拿分）
+### 一、 实用速算绝招（考场降维打击）
+#### 1. 加减速算
+- 高位叠加法（从左往右大数先加）
+- 削峰填谷法（找基准值平衡）
+- 尾数法（选项末尾数字各不相同时秒用）
+#### 2. 截位直除法（化除法为秒杀）
+- 选项首位不同 $\\rightarrow$ 分母保留 2 位有效数字
+- 选项首位相同、第二位不同 $\\rightarrow$ 分母保留 3 位有效数字
+- 试商技巧：算一位看一次选项，绝不除到最后一位
+#### 3. 百化分对照表（看到百分数秒变分数）
+- $50\\% = 1/2$ | $33.3\\% = 1/3$ | $25\\% = 1/4$
+- $20\\% = 1/5$ | $16.7\\% = 1/6$ | $14.3\\% = 1/7$（钥匙三把七）
+- $12.5\\% = 1/8$（高频必考） | $11.1\\% = 1/9$（看11想9） | $9.1\\% = 1/11$（看9想11）
+- $8.3\\% = 1/12$ | $7.7\\% = 1/13$ | $7.1\\% = 1/14$ | $6.7\\% = 1/15$ | $6.25\\% = 1/16$
+#### 4. 化除为乘法（$|r| \\le 5\\%$ 专属口算）
+- 正增长：$\\text{基期} \\approx \\text{现期} \\times (1 - r)$
+- 负增长：$\\text{基期} \\approx \\text{现期} \\times (1 + r)$
+- 口诀：增长变减，减少变加；先排小/大，口算差值
+
+### 二、 ABRX 概念与四大金刚公式
+#### 1. 核心代号定义
+- $A$：基期量（过去） | $B$：现期量（现在）
+- $R$：增长率/增速（带%） | $X$：增长量/减少量（带具体单位）
+#### 2. 四大必考公式与排雷
+- 求现期量：$B = A \\times (1 + R)$
+- 求基期量：$A = \\frac{B}{1 + R}$（首选截位直除或化除为乘）
+- 求增长率：$R = \\frac{X}{A} = \\frac{B - A}{A} = \\frac{X}{B - X}$
+  - 🚨【雷区】：知现期 $B$ 与增量 $X$，分母必须是 $B - X$，绝不能直接除以现期 $B$！
+- 求增长量（正增长）：$X = \\frac{B}{n + 1}$（令 $R \\approx 1/n$）
+- 求减少量（负增长）：$X = \\frac{B}{n - 1}$
+  - 🚨【雷区】：负增长必须除以 $n - 1$，绝不能顺手除以 $n + 1$，更绝不能直接用现期乘百分数！
+
+### 三、 进阶增长率系列
+#### 1. 间隔增长率（隔年增长率）
+- 公式：$R = r_1 + r_2 + r_1 \\times r_2$
+- 技巧：$r_1 + r_2$ 先定大局，再看 $r_1 \\times r_2$
+#### 2. 混合增长率（十字交叉法 / 线段法）
+- 整体增长率必定介于两部分之间（偏向基期基数大的一方）
+- 口诀：求整体居中，求部分倒推；量大离得近，量小离得远
+#### 3. 比值增长率（平均数增长率）
+- 形式：$A = B / C$
+- 公式：$r_A = \\frac{a - b}{1 + b}$（$a$为分子增长率，$b$为分母增长率）
+
+### 四、 比重与平均数系列
+#### 1. 现期比重：$\\text{比重} = \\frac{\\text{部分}}{\\text{整体}}$
+#### 2. 基期比重：$\\text{基期比重} = \\frac{A}{B} \\times \\frac{1 + b}{1 + a}$（$a$为部分增长率，$b$为整体增长率）
+#### 3. 两期比重比较（考场秒杀王）
+- 判升降：$a > b \\rightarrow$ 比重上升；$a < b \\rightarrow$ 比重下降
+- 算差值：两期比重差 $< |a - b|$（直接排除选项中大于或等于差值的项）
+
+---
+
+## 02 言语理解与表达（目标：24+题 / 限时：28~30min / 提速稳分盘）
+### 一、 中心理解题（抓题眼与行文脉络）
+#### 1. 路标词锁定
+- 转折词（重点在后）：但是、然而、却、事实上、实际上
+- 因果词（重点在结论）：因此、所以、可见、总之、导致
+- 对策词（核心往往是对策）：必须、亟须、应当、关键在于、唯有……才
+#### 2. 行文脉络分析
+- 总-分 / 分-总 / 分-总-分（首尾重点）
+- 转折对比（突出转折后观点）
+#### 3. 错误项特征（直接排除）
+- 背景引入句、无因果例子、转折前非重点、偷换概念、过于绝对化
+
+### 二、 逻辑填空题（语境逻辑对应，戒掉纯语感）
+#### 1. 上下文对应点寻找
+- 并列对应：顿号 \`、\`、分号 \`;\` $\\rightarrow$ 找近义词
+- 转折对比：不是……而是……、反之 $\\rightarrow$ 找反义对立词
+- 解释说明：破折号 \`——\`、冒号 \`：\` $\\rightarrow$ 找原词解释
+#### 2. 高频陷阱成语排雷
+- 差强人意（大体让人满意，非不满意）
+- 首当其冲（最先遭殃，非首先做某事）
+- 炙手可热（权势极大贬义，非产品畅销）
+- 空穴来风（有事实根据，非无稽之谈）
+
+### 三、 语句表达
+#### 1. 语句排序题
+- 抓首句原则：定义句/背景句做首句；排除指示代词、关联词后半段做首句
+- 抓捆绑逻辑：指代词绑定、关联词成对绑定、时间/空间顺序绑定
+#### 2. 接语推断题：重点看文段最后一句（承上启下）
+
+---
+
+## 03 判断推理（目标：24+题 / 限时：32~35min / 核心基本盘）
+### 一、 图形推理（建立视觉直觉分类）
+#### 1. 位置规律（元素组成完全相同）
+- 平移（方向、步长）、旋转（顺/逆时针角度）、翻转（轴对称）
+#### 2. 样式规律（元素组成相似）
+- 叠加、去同存异、去异存同、黑白运算
+#### 3. 属性规律（元素组成凌乱）
+- 对称性（轴对称、中心对称、对称轴方向与数量）
+- 曲直性（纯直线、纯曲线、曲直混合）
+- 开闭性（全封闭、全开放、半封闭）
+#### 4. 数量规律（元素各不相同且无属性规律）
+- 点（交点、切点、曲直交点）
+- 线（直线数、曲线数、一笔画与多笔画判别）
+- 面（封闭空间数、最大/最小面形状）
+- 素（种类数、部分数、独立元素数）
+- 角（直角、锐角、钝角数）
+
+### 二、 定义判断（主体客体比对法）
+- 锁定四要素：主体（谁）、客体（对谁）、条件（在什么前提下）、目的（为了什么）
+- 选项严格比对：只要有一条要素不符即排除
+
+### 三、 类比推理（两词/三词/括号题）
+- 语义关系：近义、反义、比喻义、象征义
+- 逻辑关系：全同、并列（矛盾 vs 反对）、包含（种属 vs 组成）、交叉、因果、对应
+- 语法关系：主谓、动宾、主宾、偏正
+
+### 四、 逻辑判断（规矩做题，绝不凭日常直觉）
+#### 1. 翻译推理（先翻译再逆否）
+- 如果……那么……（前 $\\rightarrow$ 后）
+- 只有……才……（后 $\\rightarrow$ 前）
+- 逆否等价命题：$P \\rightarrow Q \\iff \\neg Q \\rightarrow \\neg P$
+- 肯前必肯后，否后必否前，否前肯后无必然
+#### 2. 削弱与加强题（抓论点与论据）
+- 削弱方式：削弱论点（最强）$>$ 拆桥（切断联系）$>$ 另有他因 $>$ 削弱论据
+- 加强方式：加强论点 $>$ 搭桥（建立联系）$>$ 排除他因 $>$ 补充论据
+
+---
+
+## 04 数量关系（目标：拿 5~6 题 / 限时：10~12min / 精准半放弃）
+### 一、 必选题型精做（挑 3~4 道直接算出）
+#### 1. 工程问题
+- 给完工时间 $\\rightarrow$ 赋工作总量为公倍数，求工作效率
+- 给效率比例 $\\rightarrow$ 直接赋效率为整数，求总量
+#### 2. 经济利润问题
+- $\\text{利润} = \\text{售价} - \\text{成本}$；$\\text{利润率} = \\frac{\\text{利润}}{\\text{成本}}$
+- 打折销售、打折与降价混合计算（设未知数方程法）
+#### 3. 容斥原理
+- 两集合公式：$A \\cup B = A + B - A \\cap B$
+- 三集合公式与图示画圈标注法
+#### 4. 和差倍比与鸡兔同笼（代入排除法或二元一次方程）
+
+### 二、 剩下 6 题考场“科学蒙题法则”
+- 选项分布均匀律：一份试卷数量 10 题，ABCD 通常分布为 2~3 个
+- 算出 3 道（如算出了 A、B、B），剩下 7 道**全蒙同一个未出现的选项（如全部蒙 C 或 D）**！
+- 稳拿保底 5~6 题，耗时严格控制在 10 分钟以内！
+`;
+
+    let mm;
+    let isExpanded = false;
+
+    window.onload = () => {
+      const { Transformer } = window.markmap;
+      const transformer = new Transformer();
+      const { root } = transformer.transform(markdownContent);
+      
+      const svg = document.getElementById('mindmap');
+      mm = window.markmap.Markmap.create(svg, {
+        duration: 300,
+        color: (node) => {
+          const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4'];
+          return colors[node.state.depth % colors.length];
+        },
+        paddingX: 16,
+        autoFit: true
+      }, root);
+    };
+
+    function zoomFit() {
+      if (mm) mm.fit();
+    }
+
+    function toggleExpandAll() {
+      if (!mm) return;
+      isExpanded = !isExpanded;
+      function setFold(node, fold) {
+        if (node.children) {
+          node.payload = { ...node.payload, fold: fold ? 1 : 0 };
+          node.children.forEach(c => setFold(c, fold));
+        }
+      }
+      setFold(mm.state.data, !isExpanded);
+      mm.renderData();
+      mm.fit();
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
